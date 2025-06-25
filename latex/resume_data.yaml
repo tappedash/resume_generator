@@ -1,0 +1,113 @@
+# Personal Information
+personal:
+  name: Zaid ABOUHAL
+  tagline: Ingénieur FullStack DevOps
+  photo: picture.jpeg
+  email: zaid.abouhal.professional@gmail.com
+  phone: +212 6 60 12 48 87
+  location: Casablanca, Maroc
+  linkedin: zaid-abouhal-a197b8292
+
+# Work Experience
+experience:
+  - position: Ingénieur DevOps Backend - Remote
+    company: SurConsulting LLC
+    period: Mars 2024 -- Aujourd'hui
+    location: Atlanta, Etats Unis
+    details:
+      - "Migration du système de sous-titres pour Major League Baseball (MLB), passant de NodeJS à Java Spring Boot, améliorant la performance et la scalabilité du service. Utilisation de la programmation orientée objet, microservices et architecture distribuée pour garantir une évolutivité et fiabilité accrues."
+      - "Conteneurisation des applications avec Docker, intégration de Kubernetes pour l'orchestration des containers et mise en œuvre de solutions de scalabilité automatique."
+      - "Automatisation des pipelines CI/CD avec GitHub Actions, ArgoCD, et Jenkins, permettant des mises à jour continues et des tests automatisés."
+      - "Création de scripts en Python pour automatiser les déploiements et la gestion des configurations dans ArgoCD, réduisant le besoin d'interventions manuelles et accélérant le cycle de livraison des fonctionnalités."
+      - "Partenaires clients : Major League Baseball (MLB), Hyatt, Starbucks."
+
+  - position: Ingénieur Fullstack DevOps
+    company: Neoxia
+    period: Mars 2023 -- Aujourd'hui
+    location: Casablanca, Maroc
+    details:
+      - "Collaboré avec une équipe agile SCRUM de 12 développeurs FullStack ReactTS et Java Spring Boot pour concevoir et développer les plateformes de gestion des sinistres, incluant les sinistres liés à l'auto-corporel et les accidents de travail pour AXA Assurance, permettant ainsi d'optimiser l'efficacité du traitement des sinistres."
+      - "Conception et développement des microservices clés, la mise en œuvre des tests automatisés."
+      - "Engagé dans les revues de code pour maintenir des normes techniques."
+      - "Mise en œuvre d'un pipeline CI/CD avec Jenkins et GitLab CI, permettant l'automatisation des tests et le déploiement des microservices."
+      - "Participation aux cérémonies Agile (daily stand-ups, sprint planning, rétrospectives)."
+      - "Travaillé en étroite collaboration avec l'équipe métier pour concevoir et développer un module innovant de missionnement et d'automissionnement des prestataires, tout en intégrant des mécanismes avancés de détection et de gestion de la fraude, afin de renforcer l'efficacité et la sécurité des processus internes."
+
+  - position: Ingénieur Fullstack
+    company: Skills & Smart Groupe
+    period: Septembre 2021 -- Mars 2023
+    location: Casablanca, Maroc
+    details:
+      - "Conception et développement de la plateforme ESanté pour la Fédération Royale Marocaine de Football, permettant le suivi en temps réel du dossier médical du staff du football."
+      - "Mise en place de solutions cloud sur AWS, utilisant des services comme EC2, S3, Lambda pour déployer, gérer et sécuriser l'application, tout en optimisant la performance et réduisant les coûts opérationnels."
+
+# Education
+education:
+  - degree: Diplôme d'ingénieur en Systèmes, Réseaux et Développement Informatiques
+    institution: ESTEM, Casablanca
+    period: Septembre 2019 -- Juillet 2021
+    details:
+      - "Programmation structurée et orientée objet"
+      - "Assurance qualité logicielle et pratiques DevOps"
+      - "Gestion de projets en méthode agile"
+      - "Administration des systèmes d'exploitation Linux et Windows Server"
+      - "Conception et architecture logicielle, maîtrise des méthodes Merise et UML"
+
+  - degree: Licence en Big Data - Gestion et Analyse de données Massives
+    institution: Faculté des Sciences et Technologies, Settat
+    period: Septembre 2018 -- Juillet 2019
+    details: []
+
+  - degree: BTS en Systèmes et Réseaux Informatiques
+    institution: Lycée Al Khawarizmy
+    period: Septembre 2016 -- Juillet 2018
+    details: []
+
+# Skills
+skills:
+  - category: Langages de programmation
+    items: [Java, Python, JavaScript, TypeScript, Bash]
+  - category: Frameworks
+    items: [Spring Boot, Spring Batch, Spring Integration, ReactJS/TS, Angular]
+  - category: Base de données
+    items: [PostgreSQL, MongoDB, DB2, Firestore, MySQL]
+  - category: Testing
+    items: [JUnit, Mockito, Jest, Cypher, Selenium]
+  - category: Logiciels
+    items: [Jira, Notion, Trello]
+  - category: Méthodes et pratiques agiles
+    items: [Scrum, Kanban, TDD, DDD]
+  - category: Gestion de versioning
+    items: [Git, GitHub]
+  - category: Cloud
+    items: [AWS, GCP, Firebase, OVH]
+  - category: IaC & CI/CD
+    items: [Terraform, GitHub Actions, Jenkins, Ansible]
+  - category: Conteneurisation
+    items: [Docker]
+  - category: Monitoring
+    items: [SonarQube, Nginx]
+  - category: Outils
+    items: [Jira, Confluence, Asana]
+
+# Projects
+projects:
+  - name: Plateforme ESanté
+    description: "Plateforme de suivi médical pour la Fédération Royale Marocaine de Football permettant le suivi en temps réel du dossier médical du staff du football."
+    technologies: ["React", "Spring Boot", "Docker", "AWS EC2", "S3", "Lambda"]
+  - name: Système de sous-titres MLB
+    description: "Migration du système de sous-titres pour Major League Baseball, passant de NodeJS à Java Spring Boot, améliorant la performance et la scalabilité du service."
+    technologies: ["Java Spring Boot", "Kubernetes", "ArgoCD", "Docker"]
+  - name: Gestion des sinistres AXA Assurance
+    description: "Plateforme de gestion des sinistres, incluant les sinistres liés à l'auto-corporel et les accidents de travail."
+    technologies: ["Java Spring Boot", "React", "Jenkins", "GitLab CI"]
+
+# Languages
+languages:
+  - name: Arabe
+    level: Langue maternelle
+  - name: Français
+    level: "TCFC - C1"
+  - name: Anglais
+    level: "IELTS - General Training - C1"
+
