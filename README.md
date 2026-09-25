@@ -1,112 +1,433 @@
 # Resume Generator
 
-Tailors a master YAML resume to a specific job description and renders it to PDF
-through LaTeX. Usable three ways: as an **MCP server** (call it from Codex,
-Claude Code, or another MCP host), as a **CLI**, or as a **Python package**.
+AI-assisted resume generator for tailoring a YAML master resume to job
+descriptions and rendering ATS-friendly PDF resumes and cover letters with
+LaTeX. It can run as a command-line tool, a Python package, or a local MCP
+server for Codex, Claude Code, and other MCP-compatible agents.
 
+Keywords: AI resume generator, ATS resume builder, tailored resume PDF, YAML
+resume, LaTeX resume generator, MCP server, Codex MCP, Claude Code MCP,
+cover letter generator.
+
+## What It Does
+
+- Keeps resume facts in one structured YAML file.
+- Tailors resumes to job descriptions while grounding output in the master
+  resume.
+- Renders clean PDF resumes and cover letters through XeLaTeX.
+- Exposes MCP tools so coding agents can generate resumes from chat.
+- Supports no-API host-agent tailoring: Codex or Claude Code can write the
+  tailored content, then this server validates and renders it.
+- Writes audit files such as `tailored.yaml`, `job.txt`, and LaTeX logs so you
+  can review what was generated before sending a resume.
+
+## Repository Layout
+
+```text
+data/resume_data_en_faang.yaml   Sample master resume data
+templates/faang/                 LaTeX/Jinja2 resume and cover letter templates
+src/resume_generator/            Python package, CLI, pipeline, and MCP server
+tests/                           Unit and integration tests
+output/                          Generated applications, gitignored by default
 ```
-data/resume_data_en_faang.yaml   master resume — the single source of truth
-templates/faang/                 LaTeX/Jinja2 templates (resume + cover letter)
-src/resume_generator/            the package
-output/<company>-<role>-<date>/  generated applications (gitignored)
+
+## Requirements
+
+- Python 3.10+
+- A LaTeX distribution that provides `xelatex`
+  - macOS: MacTeX or BasicTeX
+  - Linux: TeX Live packages that include XeLaTeX
+  - Windows: MiKTeX or TeX Live
+- Optional: `pdfinfo` from Poppler for page-count checks
+- Optional for provider-backed CLI tailoring: `ANTHROPIC_API_KEY`
+
+The MCP workflow does not require an API key inside this server when the host
+agent, such as Codex or Claude Code, performs the tailoring.
+
+## Quick Start
+
+Clone the project:
+
+```bash
+git clone https://github.com/tappedash/resume_generator.git
+cd resume_generator
 ```
 
-## Setup
-
-Requires Python 3.10+ and a LaTeX distribution providing `xelatex` (MacTeX on macOS).
-`pdfinfo` (poppler) is optional and enables page-count checking.
+Create a virtual environment and install the package:
 
 ```bash
 python3 -m venv .venv
 .venv/bin/pip install -e ".[dev]"
 ```
 
-## CLI
+Verify the install:
 
 ```bash
-resume-gen render                                   # master resume as-is, no API call
-resume-gen tailor --job posting.txt --company "Trend Micro" --title "Backend Dev"
-resume-gen cover-letter --job posting.txt --company "Trend Micro"
-resume-gen apply --job posting.txt --company "Trend Micro"   # both, one folder
-resume-gen serve                                    # MCP server over stdio
+.venv/bin/resume-gen --help
+.venv/bin/pytest
 ```
 
-The job description can also be piped: `pbpaste | resume-gen tailor --company Acme`.
+Render the sample master resume:
 
-## MCP server
+```bash
+.venv/bin/resume-gen render --out output/sample-resume.tex
+```
 
-`.mcp.json` in this repo registers the server for Claude Code. Restart Claude Code,
-then just paste a job description and ask for a tailored resume.
+The render command writes a `.tex` file and compiles a sibling `.pdf`.
 
-| Tool | API call? | Does |
-|---|---|---|
-| `get_master_resume` | no | Returns the master resume as JSON |
-| `tailor_resume` | no | Returns the master resume, job posting, and instructions for the host agent |
-| `render_tailored_resume` | no | Validates host-agent tailored content and renders the resume PDF |
-| `generate_cover_letter` | yes | Job description → cover letter PDF + `.txt` |
-| `render_resume` | no | Renders resume data you supply directly |
+## Add Your Resume Data
 
-Normal MCP resume tailoring does not need an API key inside this server. Codex,
-Claude Code, or another host uses its own model access to write the tailored
-structured content, then calls `render_tailored_resume`. Each render writes
-`resume.pdf`, `tailored.yaml` (what the host agent produced), `job.txt`, and
-`latex.log` into the output folder.
+The default data file is:
 
-## How tailoring is kept honest
+```text
+data/resume_data_en_faang.yaml
+```
 
-The model may select, reorder, compress and reword material that is already in the
-master resume. It may not invent anything. Two things enforce this:
+For public or shared repositories, keep personal data outside the repo and point
+the tool to your private YAML:
 
-1. A system prompt that spells out the boundary explicitly.
-2. `validate_grounding()` — every employer, job title, date range and skill in the
-   output is checked against the master resume before anything is rendered. A
-   mismatch is fed back to the model as a revision request, and aborts the run if it
-   repeats.
+```bash
+cp data/resume_data_en_faang.yaml ~/my-resume.yaml
+export RESUME_GENERATOR_DATA_FILE="$HOME/my-resume.yaml"
+```
 
-Bullet *wording* is deliberately not checked, since rewording is the point. That is
-why `tailored.yaml` is written on every run: **read it before you send the PDF.**
+You can also pass a data file per command:
 
-If the rendered PDF exceeds `--max-pages` (default 2), the page count is fed back to
-the model to cut content, up to 3 attempts. If it still overflows the PDF is kept and
-a warning is printed rather than failing outright.
+```bash
+.venv/bin/resume-gen --data-file ~/my-resume.yaml render --out output/resume.tex
+```
 
-To correct a tailored resume by hand, edit `tailored.yaml` and re-render it with the
-`render_resume` MCP tool — no API call, no re-tailoring.
+The YAML supports:
 
-## Editing your resume
+- `personal`
+- `summary` (optional)
+- `skills`
+- `experience`
+- `education`
+- `languages`
 
-`data/resume_data_en_faang.yaml` is the only file to edit for content. Top-level keys:
-`personal`, `summary` (optional), `skills`, `experience`, `education`, `languages`.
-Anything not listed there can never appear in a generated resume.
+Anything absent from the master YAML cannot appear in validated tailored
+resumes.
 
-For another user, create a YAML file with the same shape and either:
+## CLI Usage
+
+### Render the Master Resume
+
+```bash
+.venv/bin/resume-gen render --out output/master-resume.tex
+```
+
+### Tailor a Resume From a Job Posting File
+
+```bash
+.venv/bin/resume-gen tailor \
+  --job job-posting.txt \
+  --company "Example Corp" \
+  --title "Backend Engineer" \
+  --out output/example-corp-backend-engineer
+```
+
+### Tailor a Resume From Stdin
+
+```bash
+pbpaste | .venv/bin/resume-gen tailor \
+  --company "Example Corp" \
+  --title "Backend Engineer"
+```
+
+On Linux, replace `pbpaste` with your clipboard or pipe source.
+
+### Generate a Cover Letter
+
+```bash
+.venv/bin/resume-gen cover-letter \
+  --job job-posting.txt \
+  --company "Example Corp" \
+  --title "Backend Engineer" \
+  --out output/example-corp-cover-letter
+```
+
+### Generate Both Resume and Cover Letter
+
+```bash
+.venv/bin/resume-gen apply \
+  --job job-posting.txt \
+  --company "Example Corp" \
+  --title "Backend Engineer" \
+  --out output/example-corp-application
+```
+
+### Useful CLI Flags
+
+```text
+--data-file PATH     Use a custom master resume YAML
+--job PATH           Read the job description from a file
+--company TEXT       Hiring company
+--title TEXT         Role title
+--url URL            Job posting URL
+--out PATH           Output directory, or .tex path for render
+--max-pages N        Resume page target for tailoring, default 2
+--model TEXT         Model name for provider-backed CLI tailoring
+```
+
+## MCP Server Usage
+
+Run the local MCP server over stdio:
+
+```bash
+.venv/bin/resume-gen serve
+```
+
+The MCP server exposes these tools:
+
+| Tool | API call inside server? | Purpose |
+|---|---:|---|
+| `get_master_resume` | No | Return the master resume as JSON |
+| `tailor_resume` | No | Return the job, master facts, and next-step instructions for host-agent tailoring |
+| `render_tailored_resume` | No | Validate host-agent tailored content and render a PDF |
+| `render_resume` | No | Render supplied resume-shaped data directly to PDF |
+| `generate_cover_letter` | Yes | Generate and render a cover letter |
+
+The common MCP flow is:
+
+1. The host agent calls `get_master_resume` or `tailor_resume`.
+2. The host agent writes a `TailoredResume` object using only master-resume
+   facts.
+3. The host agent calls `render_tailored_resume`.
+4. The MCP server validates grounding and renders the PDF.
+
+## Codex Setup
+
+OpenAI documentation says Codex can connect to MCP servers through the CLI or
+IDE extension and verify them with `codex mcp list`. See the OpenAI Docs MCP
+guide for current Codex MCP configuration details:
+https://developers.openai.com/learn/docs-mcp
+
+From this repository, install the package first:
+
+```bash
+python3 -m venv .venv
+.venv/bin/pip install -e ".[dev]"
+```
+
+Add the local MCP server to Codex:
+
+```bash
+codex mcp add resume-generator -- "$(pwd)/.venv/bin/resume-gen" serve
+```
+
+Verify it:
+
+```bash
+codex mcp list
+codex mcp get resume-generator
+```
+
+Example Codex prompt:
+
+```text
+Use the resume-generator MCP server. Tailor my resume for this job description,
+render a 2-page PDF, and use only facts present in the master resume.
+
+<paste job description>
+```
+
+If you use a private resume YAML outside the repo, configure the MCP server with
+that environment variable in Codex:
+
+```toml
+[mcp_servers.resume-generator]
+command = "/absolute/path/to/resume_generator/.venv/bin/resume-gen"
+args = ["serve"]
+
+[mcp_servers.resume-generator.env]
+RESUME_GENERATOR_DATA_FILE = "/absolute/path/to/my-resume.yaml"
+```
+
+## Claude Code Setup
+
+Claude Code supports MCP servers. Anthropic's Claude Code docs cover
+installation, `claude doctor`, and MCP commands:
+
+- Setup: https://docs.anthropic.com/en/docs/claude-code/getting-started
+- MCP overview: https://docs.anthropic.com/en/docs/mcp
+- CLI reference: https://docs.anthropic.com/en/docs/claude-code/cli-usage
+
+Install this project:
+
+```bash
+python3 -m venv .venv
+.venv/bin/pip install -e ".[dev]"
+```
+
+Add the MCP server to Claude Code:
+
+```bash
+claude mcp add resume-generator -- "$(pwd)/.venv/bin/resume-gen" serve
+```
+
+Verify it:
+
+```bash
+claude mcp list
+```
+
+Inside Claude Code, you can also run:
+
+```text
+/mcp
+```
+
+Example Claude Code prompt:
+
+```text
+Use the resume-generator MCP tools to tailor my resume for this posting.
+First inspect the master resume facts, then render a PDF. Do not invent
+employers, dates, schools, or skills.
+
+<paste job description>
+```
+
+### Project `.mcp.json`
+
+This repository includes a `.mcp.json` for project-level MCP configuration:
+
+```json
+{
+  "mcpServers": {
+    "resume-generator": {
+      "command": "resume-gen",
+      "args": ["serve"]
+    }
+  }
+}
+```
+
+This works when `resume-gen` is available on the host process PATH. For the most
+predictable setup, use the explicit `.venv/bin/resume-gen` command shown above.
+
+## Output Files
+
+Generated application folders usually contain:
+
+```text
+resume.pdf          Final resume PDF
+resume.tex          Rendered LaTeX source
+tailored.yaml       Tailored resume content for review
+job.txt             Job posting audit copy
+latex.log           Short compile log
+*.aux, *.out, *.xdv LaTeX build artifacts
+```
+
+`output/` is gitignored by default. If you want only final PDFs in another
+folder, copy or move `resume.pdf` after generation.
+
+## Grounding and Safety
+
+The project is intentionally conservative:
+
+- Employer, position, and period fields must match the master resume.
+- Skills must already exist in the master resume.
+- Education, languages, and personal details are copied from the master resume,
+  not generated by the model.
+- Reworded bullets are allowed because tailoring is the point.
+
+This reduces hallucinated credentials while still letting the model reorder,
+compress, and emphasize relevant experience.
+
+Always review `tailored.yaml` and the final PDF before sending an application.
+
+## Development
+
+Run the tests:
+
+```bash
+.venv/bin/pytest
+```
+
+Run a single test file:
+
+```bash
+.venv/bin/pytest tests/test_mcp_server.py
+```
+
+No test spends API credits. Model calls are stubbed in tests.
+
+## Troubleshooting
+
+### `xelatex not found`
+
+Install a LaTeX distribution and make sure `xelatex` is on PATH.
+
+macOS examples:
+
+```bash
+brew install --cask mactex
+```
+
+or install BasicTeX and the required packages manually.
+
+### Page count is missing
+
+Install Poppler so `pdfinfo` is available:
+
+```bash
+brew install poppler
+```
+
+### MCP server starts but tools cannot find your resume
+
+Use an absolute data-file path:
 
 ```bash
 export RESUME_GENERATOR_DATA_FILE=/absolute/path/to/my-resume.yaml
 ```
 
-or replace `data/resume_data_en_faang.yaml` in your local checkout. The first
-option is better when several people share the same codebase or when you want
-your personal data outside the repository. The YAML should contain their name,
-email, phone, location, LinkedIn, GitHub, work authorization, skills, work
-experience, education, and languages.
+For Codex or Claude Code MCP configs, add that variable to the MCP server
+environment.
 
-## Development
+### Claude Code or Codex cannot find `resume-gen`
+
+Use the absolute virtualenv executable:
 
 ```bash
-.venv/bin/pytest              # LaTeX-dependent tests skip if xelatex is absent
+/absolute/path/to/resume_generator/.venv/bin/resume-gen serve
 ```
 
-No test spends API credits — the Claude calls are stubbed.
+### The tailored resume contains something wrong
+
+Edit `tailored.yaml` by hand and call `render_resume`, or ask your MCP host to
+produce a corrected `TailoredResume` object and call `render_tailored_resume`
+again.
+
+## GitHub Discoverability
+
+Suggested repository description:
+
+```text
+AI-assisted resume generator that tailors a YAML master resume to job descriptions and renders ATS-friendly PDFs via LaTeX, with CLI and MCP server support.
+```
+
+Suggested GitHub topics:
+
+```text
+ai-resume-generator
+ats-resume
+resume-builder
+resume-generator
+cover-letter-generator
+yaml-resume
+latex-resume
+mcp-server
+codex
+claude-code
+python
+jinja2
+xelatex
+job-search
+career-tools
+```
 
 ## License
 
-This project is licensed under the MIT License. See [LICENSE](LICENSE).
-
-## Troubleshooting
-
-- **Compilation fails** — read `latex.log` in the output directory.
-- **`xelatex not found`** — install MacTeX, or add `/Library/TeX/texbin` to `PATH`.
-- **Missing page counts** — install poppler (`brew install poppler`).
-- **Running the package from outside the repo** — set `RESUME_GENERATOR_ROOT` to the
-  repo path so templates and data resolve.
+MIT License. See [LICENSE](LICENSE).
