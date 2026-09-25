@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 Zaid Abouhal
+
 """The MCP surface. Only the tools that need no API key are executed here."""
 
 import asyncio

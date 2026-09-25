@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 Zaid Abouhal
+
 from resume_generator.latex import escape_latex
 
 

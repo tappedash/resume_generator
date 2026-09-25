@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 Zaid Abouhal
+
 """Command line interface: resume-gen <command>."""
 
 from __future__ import annotations

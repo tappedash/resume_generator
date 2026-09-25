@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 Zaid Abouhal
+
 """MCP server exposing the resume generator to Codex, Claude Code, and peers.
 
 Run with ``resume-gen serve`` (stdio transport).

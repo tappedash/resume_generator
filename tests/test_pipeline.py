@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 Zaid Abouhal
+
 """Retry-loop and orchestration behaviour, with the API call stubbed out.
 
 No test in this file spends API credits.

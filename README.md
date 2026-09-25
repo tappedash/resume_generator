@@ -99,6 +99,10 @@ experience, education, and languages.
 
 No test spends API credits — the Claude calls are stubbed.
 
+## License
+
+This project is licensed under the MIT License. See [LICENSE](LICENSE).
+
 ## Troubleshooting
 
 - **Compilation fails** — read `latex.log` in the output directory.

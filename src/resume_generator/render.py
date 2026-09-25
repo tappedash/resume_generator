@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 Zaid Abouhal
+
 """Jinja2 -> LaTeX source rendering.
 
 Pure: takes data, returns a LaTeX string. Nothing here touches the filesystem

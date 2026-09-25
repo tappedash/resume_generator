@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 Zaid Abouhal
+
 """Project path resolution.
 
 Paths are resolved relative to the repository root so the package keeps working

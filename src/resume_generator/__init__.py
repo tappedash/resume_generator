@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 Zaid Abouhal
+
 """Generate tailored resumes and cover letters from a master YAML resume."""
 
 from .data import load_resume_data

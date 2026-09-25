@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 Zaid Abouhal
+
 """Claude API calls that produce tailored resume content and cover letters.
 
 This module knows nothing about LaTeX or PDFs. It takes a master resume plus a

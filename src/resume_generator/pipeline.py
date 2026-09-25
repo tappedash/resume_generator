@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 Zaid Abouhal
+
 """Orchestration: master resume + job posting -> reviewed PDF on disk.
 
 This is the only module that composes the deterministic core (render, compile)

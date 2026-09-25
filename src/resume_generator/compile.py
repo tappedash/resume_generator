@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 Zaid Abouhal
+
 """XeLaTeX compilation.
 
 Unlike the original script this never calls ``os.chdir`` -- the working

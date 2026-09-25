@@ -6,6 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "resume-generator"
 version = "0.1.0"
 description = "Tailor a master resume to a job description and render it to PDF via LaTeX."
+license = "MIT"
 requires-python = ">=3.10"
 dependencies = [
     "PyYAML>=6.0",
