@@ -1,0 +1,47 @@
+{% include '_preamble.tex.j2' %}
+
+{% set personal = context.get('personal', {}) %}
+{% set letter = context.get('letter', {}) %}
+{% set job = context.get('job', {}) %}
+
+% Letters breathe more than resumes do: restore inter-paragraph spacing.
+\setlength{\parskip}{7pt}
+
+\begin{document}
+\fontsize{10.5pt}{13.5pt}\selectfont
+
+{\centering
+  {\LARGE\textbf{ {{ personal.get('name', '') | escape_latex }} }}\par
+  \vspace{3pt}
+  {{ personal.get('location', '') | escape_latex }}
+  \contactsep {{ personal.get('phone', '') | escape_latex }}
+  \contactsep {{ personal.get('email', '') | escape_latex }}\par
+}
+
+\vspace{10pt}
+\hrule
+\vspace{14pt}
+
+{{ context.get('date', '') | escape_latex }}\par
+
+{% if job.get('company') %}
+\vspace{4pt}
+\textbf{ {{- job.get('company', '') | escape_latex -}} }\par
+{% if job.get('title') %}
+Re: {{ job.get('title', '') | escape_latex }}\par
+{% endif %}
+{% endif %}
+
+\vspace{10pt}
+{{ letter.get('greeting', 'Dear Hiring Manager,') | escape_latex }}\par
+
+{% for paragraph in letter.get('paragraphs', []) %}
+{{ paragraph | escape_latex }}\par
+{% endfor %}
+
+\vspace{6pt}
+{{ letter.get('closing', 'Sincerely,') | escape_latex }}\par
+\vspace{16pt}
+{{ personal.get('name', '') | escape_latex }}\par
+
+\end{document}

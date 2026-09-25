@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "resume-generator": {
+      "command": "resume-gen",
+      "args": [
+        "serve"
+      ]
+    }
+  }
+}

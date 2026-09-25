@@ -1,0 +1,183 @@
+personal:
+  name: Sample Candidate
+  email: candidate@example.com
+  phone: "555-0100"
+  location: City, Region, Country
+  linkedin: "linkedin.com/in/sample-candidate"
+  github: "github.com/sample-candidate"
+  work_authorization: Authorized to work in the target location
+
+target_role:
+  title: Software Engineer
+  company: Example Company
+  focus:
+    - Backend systems for high-scale, latency-sensitive platforms
+    - Java, Python, JavaScript, REST APIs, and distributed services
+    - Platform modernization, performance, scalability, and reliability
+    - Cloud infrastructure, containers, CI/CD, and observability
+    - Data-driven systems and production ownership
+
+skills:
+  - category: Programming Languages
+    items:
+      - Java
+      - Python
+      - TypeScript
+      - JavaScript
+      - SQL
+      - C#
+
+  - category: Backend Frameworks & APIs
+    items:
+      - Java Spring Boot
+      - Spring Web MVC
+      - Spring Security
+      - Spring Data JPA
+      - Hibernate
+      - Node.js
+      - Express.js
+      - REST APIs
+      - GraphQL
+      - API Design
+      - Service Integrations
+      - OpenAPI
+      - Maven
+
+  - category: Distributed Systems & Platform Reliability
+    items:
+      - Distributed Backend Services
+      - Service-Oriented Architecture
+      - Microservices
+      - High-Availability Systems
+      - Low-Latency API Design
+      - Performance Optimization
+      - Scalability Improvements
+      - Production Troubleshooting
+      - Root Cause Analysis
+      - Platform Modernization
+      - Refactoring
+
+  - category: Cloud & DevOps
+    items:
+      - AWS
+      - AWS EKS
+      - AWS EC2
+      - AWS Lambda
+      - Amazon S3
+      - Amazon RDS
+      - Amazon ECR
+      - AWS IAM
+      - AWS CloudWatch
+      - AWS Secrets Manager
+      - Docker
+      - Kubernetes
+      - Terraform
+      - GitHub Actions
+      - Jenkins
+      - Git
+      - CI/CD
+
+  - category: Databases & Data Systems
+    items:
+      - PostgreSQL
+      - MySQL
+      - SQL Server
+      - MongoDB
+      - SQL
+      - Data Modeling
+      - Query Optimization
+      - Data Validation
+      - Data Synchronization
+      - Reporting Workflows
+
+  - category: Testing & Observability
+    items:
+      - JUnit 5
+      - Mockito
+      - Spring Boot Test
+      - Pytest
+      - Postman
+      - Unit Testing
+      - Integration Testing
+      - API Testing
+      - Automated Testing
+      - AWS CloudWatch
+      - Structured Logging
+      - Log Analysis
+      - Release Validation
+
+  - category: Security & Identity
+    items:
+      - OAuth2
+      - OpenID Connect
+      - SAML 2.0
+      - JWT
+      - Single Sign-On
+      - Session Management
+      - Access Control
+      - Secure Access Flows
+      - API Security
+
+experience:
+  - position: Senior Software Engineer
+    company: Example Cloud Services
+    period: 05/2024 - Present
+    location: Remote
+    details:
+      - "Designed and built Java Spring Boot backend services and REST APIs for high-availability, cloud-hosted production environments."
+      - "Built backend APIs, PostgreSQL-backed services, authentication workflows, and secure service integrations supporting distributed enterprise applications."
+      - "Deployed and operated backend services on AWS EKS with Kubernetes, Terraform-managed infrastructure, GitHub Actions CI/CD pipelines, Amazon ECR, AWS IAM, AWS Secrets Manager, and AWS CloudWatch monitoring."
+      - "Supported production reliability through CloudWatch log analysis, API testing, release validation, defect resolution, structured troubleshooting, and root-cause investigation."
+      - "Improved maintainability of backend systems through refactoring, technical documentation, code reviews, and iterative platform improvements."
+      - "Collaborated with architects, QA, DevOps, product stakeholders, and engineering teams to clarify requirements, align technical decisions, and deliver secure production updates."
+
+  - position: Software Engineer
+    company: Example Enterprise Platform
+    period: 03/2023 - 04/2024
+    location: Hybrid
+    details:
+      - "Built backend services and API orchestration layers in Java and Spring Boot for a high-volume distributed enterprise platform."
+      - "Designed and maintained REST API integrations, authentication flows, database-backed workflows, and service layers supporting business-critical operations."
+      - "Participated in architecture reviews, backend service decomposition, API design, and cloud deployment discussions for production workloads."
+      - "Improved backend reliability and performance through query optimization, refactoring, automated testing, and debugging of production issues."
+      - "Supported production stability by investigating reported defects, applying code fixes, documenting findings, and validating releases."
+
+  - position: Software Engineer
+    company: Example Logistics Systems
+    period: 03/2021 - 02/2023
+    location: On-site
+    details:
+      - "Designed and developed backend services and API integrations using Node.js, Express.js, TypeScript, JavaScript, REST APIs, GraphQL, SQL databases, Docker, and AWS."
+      - "Built backend services and data synchronization workflows for a supply chain and e-commerce platform connecting delivery systems with external client applications."
+      - "Created shipment tracking, order visibility, delivery status, and logistics reporting workflows using REST APIs, GraphQL APIs, SQL databases, and service integrations."
+      - "Developed backend services and reporting features for an operations platform supporting service workflows."
+      - "Supported testing, debugging, technical documentation, release validation, and continuous improvement across production-oriented systems."
+
+  - position: AI Evaluation Specialist
+    company: Example AI Review Network
+    period: Part-Time Remote
+    location: Remote
+    details:
+      - "Evaluated AI-generated code and technical explanations for correctness, clarity, maintainability, reasoning quality, and instruction-following."
+      - "Reviewed responses involving Java, Python, JavaScript, TypeScript, C#, APIs, backend development, debugging, distributed systems, data structures, and algorithms."
+      - "Assessed model outputs for edge-case handling, code quality, performance, clarity, and adherence to detailed project rubrics."
+      - "Provided structured feedback to improve AI coding reliability, LLM response quality, documentation quality, and developer-assistance workflows."
+
+education:
+  - degree: Master's Degree in Computer Science
+    institution: Example University
+    period: 2021
+
+  - degree: Bachelor's Degree in Computer Science
+    institution: Example Institute of Technology
+    period: 2019
+
+languages:
+  - name: English
+    level: Professional Proficiency
+
+  - name: French
+    level: Professional Proficiency
+
+  - name: Arabic
+    level: Professional Proficiency

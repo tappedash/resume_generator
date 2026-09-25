@@ -1,255 +1,108 @@
-# Professional Resume Generator
+# Resume Generator
 
-A Python-based resume generator that uses Jinja2 templates and LaTeX to create professional, beautifully formatted CVs. Maintain your resume content in a simple YAML file while generating polished PDF output.
-
-## Features
-
-- Easy-to-edit YAML format for resume content
-- Professional LaTeX-based PDF output
-- Customizable template with support for:
-  - Work experience with detailed bullet points
-  - Education history
-  - Skills categorization
-  - Language proficiency
-  - Profile photo
-
-## Quick Start
-
-1. **Install Dependencies**
-   ```bash
-   # Install Python requirements
-   pip install -r src/requirements.txt
-   
-   # Install LaTeX distribution:
-   # - macOS: brew install --cask mactex-no-gui
-   # - Windows: Install MiKTeX from https://miktex.org/download
-   ```
-
-2. **Edit Your Resume**
-   - Update `latex/resume_data.yaml` with your information
-   - Add your photo as `latex/picture.jpeg`
-
-3. **Generate PDF**
-   ```bash
-   python src/generate_resume.py
-   # Output: latex/resume.pdf
-   ```
-
-## Project Structure
+Tailors a master YAML resume to a specific job description and renders it to PDF
+through LaTeX. Usable three ways: as an **MCP server** (call it from Codex,
+Claude Code, or another MCP host), as a **CLI**, or as a **Python package**.
 
 ```
-.
-├── src/                    # Python code
-│   ├── generate_resume.py  # Main script
-│   └── requirements.txt    # Python dependencies
-└── latex/                  # LaTeX files
-    ├── resume.pdf          # Generated PDF
-    ├── resume.tex          # Generated LaTeX
-    ├── resume_template.tex.j2  # Jinja2 template
-    ├── resume_data.yaml    # Your resume content (edit this)
-    ├── altacv.cls          # LaTeX class
-    └── picture.jpeg        # Your profile photo
+data/resume_data_en_faang.yaml   master resume — the single source of truth
+templates/faang/                 LaTeX/Jinja2 templates (resume + cover letter)
+src/resume_generator/            the package
+output/<company>-<role>-<date>/  generated applications (gitignored)
 ```
 
-## Customization
+## Setup
 
-### Content
-- Edit `latex/resume_data.yaml` to update your information
-- The YAML file is organized into logical sections
+Requires Python 3.10+ and a LaTeX distribution providing `xelatex` (MacTeX on macOS).
+`pdfinfo` (poppler) is optional and enables page-count checking.
 
-### Design
-- Modify `latex/resume_template.tex.j2` for layout changes
-- Adjust colors and fonts in the template
-- Uses the AltaCV LaTeX class
-
-### Profile Photo
-1. Place your photo in the `latex` directory
-2. Update the `photo` field in `resume_data.yaml`
-3. Supported formats: JPG, PNG, or PDF
-
-## Troubleshooting
-
-### Common Issues
-
-1. **Missing LaTeX packages**
-   - **Error**: `File '<package>.sty' not found`
-   - **Fix**: Install missing packages:
-     - macOS: `sudo tlmgr install <package-name>`
-     - Windows: Use MiKTeX Console
-
-2. **Python errors**
-   - **Error**: `ModuleNotFoundError`
-   - **Fix**: `pip install -r src/requirements.txt`
-
-3. **Font issues**
-   - Ensure Lato font is installed or modify the template
-
-## License
-
-Based on [AltaCV](https://github.com/liantze/AltaCV) by LianTze Lim (Apache 2.0)
-
-## Customization
-
-- **Update Content**: Edit `latex/resume_data.yaml`
-- **Change Styling**: Modify `latex/resume_template.tex.j2`
-- **Update LaTeX Class**: Edit `latex/altacv.cls`
-
-## Notes
-
-- The template is based on AltaCV by LianTze Lim (liantze@gmail.com)
-- Original AltaCV documentation is available in the `latex` directory
-
-## Requirements and Compilation
-
-- A complete LaTeX installation is required (e.g., TeX Live, MiKTeX, or MacTeX)
-- The following LaTeX packages are required:
-  - `fontawesome5` - For icons
-  - `tcolorbox` - For colored boxes and frames
-  - `enumitem` - For customizing lists
-  - `paracol` - For multi-column layouts
-  - `lato` - The default font (or any other font of your choice)
-  - `biblatex` - For publications and references
-
-## Troubleshooting
-
-1. **Missing LaTeX packages**:
-   - If you get errors about missing `.sty` files, install the required packages using your LaTeX distribution's package manager:
-     - For TeX Live: `tlmgr install <package-name>`
-     - For MiKTeX: Use the MiKTeX Console to install missing packages
-
-2. **Photo not found**:
-   - Ensure the photo file exists in the `latex` directory
-   - Check the filename in `resume_data.yaml` matches exactly (including extension)
-   - Supported formats: JPG, PNG, or PDF
-
-3. **Font issues**:
-   - If you get font-related errors, install the Lato font package
-   - Alternatively, modify the template to use a different font by editing the font settings in the template
-
-## License
-
-This project is based on [AltaCV](https://github.com/liantze/AltaCV) by LianTze Lim, which is licensed under the [Apache License 2.0](https://github.com/liantze/AltaCV/blob/main/LICENSE).
-
-## Contributing
-
-Contributions are welcome! If you'd like to contribute, please:
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a new Pull Request
-
-## Acknowledgements
-
-- [AltaCV](https://github.com/liantze/AltaCV) - The LaTeX template this project is based on
-- [Jinja2](https://palletsprojects.com/p/jinja/) - For powerful template rendering
-- [PyYAML](https://pyyaml.org/) - For YAML parsing and data serialization
-
-## Advanced Configuration
-
-### Layout Options
-
-- Use the `normalphoto` option to get normal (non-circular) photos
-- Customize colors and fonts through the template configuration
-- The `withhyper` document class option makes personal info fields clickable hyperlinks
-- Supports multiple LaTeX engines: pdflatex, XeLaTeX, and LuaLaTeX
-- Uses Lato font by default, but can be customized
-
-### Example LaTeX Configuration
-
-Here's a minimal example of how to use the template in your LaTeX file:
-
-```latex
-\documentclass[10pt,a4paper,ragged2e,withhyper]{altacv}
-
-% Page layout
-\geometry{left=1.25cm, right=1.25cm, top=1.5cm, bottom=1.5cm, columnsep=1.2cm}
-
-% For parallel columns
-\usepackage{paracol}
-
-% Start a two-column layout
-\begin{document}
-\begin{paracol}{2}
-
-% Left column
-\cvsection{Experience}
-% Your experience items here
-
-% Switch to right column
-\switchcolumn
-\cvsection{Education}
-% Your education items here
-
-\end{paracol}
-\end{document}
-```
-
-### Clickable Info Fields
-
-When using the `withhyper` option, personal info fields become clickable hyperlinks. For example, `\email{example@example.com}` will create a clickable email link.
-
-You can customize the hyperlink behavior by redefining the following commands:
-
-```latex
-% Change the hyperlink prefix (defaults to https://)
-\renewcommand{\homepagehyperprefix}{http://}
-
-% Change the symbol used for homepages
-\renewcommand{\homepagesymbol}{\faLink}
-```
-
-## Adding Custom Fields
-
-You can add custom information fields using these methods:
-
-### Using `\printinfo`
-
-```latex
-\printinfo{\faGithub}{your-username}[https://github.com/]
-```
-
-### Defining a New Field
-
-```latex
-\NewInfoField{github}{\faGithub}[https://github.com/]
-\github{your-username}
-```
-
-### Custom Icons and Colors
-
-You can customize various aspects of the template:
-
-#### Colors
-```latex
-\colorlet{accent}{blue!70!black}
-\colorlet{heading}{black}
-```
-
-#### Fonts
-```latex
-\renewcommand{\namefont}{\Huge\bfseries}
-\renewcommand{\taglinefont}{\large\bfseries}
-```
-
-#### Icons
-```latex
-\renewcommand{\cvItemMarker}{\textbullet}
-\renewcommand{\cvRatingMarker}{\faCircle}
-```
-
-### ATS Compatibility
-
-This template includes features to improve compatibility with Applicant Tracking Systems (ATS):
-- Icons include alternative text for screen readers
-- Uses semantic LaTeX markup
-- Generates clean text output with `pdftotext`
-
-For best results, test your generated PDF with:
 ```bash
-pdftotext -layout resume.pdf
+python3 -m venv .venv
+.venv/bin/pip install -e ".[dev]"
 ```
 
-## Need More Help?
+## CLI
 
-For advanced customization options, refer to the [AltaCV documentation](https://github.com/liantze/AltaCV) in the `latex` directory.
+```bash
+resume-gen render                                   # master resume as-is, no API call
+resume-gen tailor --job posting.txt --company "Trend Micro" --title "Backend Dev"
+resume-gen cover-letter --job posting.txt --company "Trend Micro"
+resume-gen apply --job posting.txt --company "Trend Micro"   # both, one folder
+resume-gen serve                                    # MCP server over stdio
+```
+
+The job description can also be piped: `pbpaste | resume-gen tailor --company Acme`.
+
+## MCP server
+
+`.mcp.json` in this repo registers the server for Claude Code. Restart Claude Code,
+then just paste a job description and ask for a tailored resume.
+
+| Tool | API call? | Does |
+|---|---|---|
+| `get_master_resume` | no | Returns the master resume as JSON |
+| `tailor_resume` | no | Returns the master resume, job posting, and instructions for the host agent |
+| `render_tailored_resume` | no | Validates host-agent tailored content and renders the resume PDF |
+| `generate_cover_letter` | yes | Job description → cover letter PDF + `.txt` |
+| `render_resume` | no | Renders resume data you supply directly |
+
+Normal MCP resume tailoring does not need an API key inside this server. Codex,
+Claude Code, or another host uses its own model access to write the tailored
+structured content, then calls `render_tailored_resume`. Each render writes
+`resume.pdf`, `tailored.yaml` (what the host agent produced), `job.txt`, and
+`latex.log` into the output folder.
+
+## How tailoring is kept honest
+
+The model may select, reorder, compress and reword material that is already in the
+master resume. It may not invent anything. Two things enforce this:
+
+1. A system prompt that spells out the boundary explicitly.
+2. `validate_grounding()` — every employer, job title, date range and skill in the
+   output is checked against the master resume before anything is rendered. A
+   mismatch is fed back to the model as a revision request, and aborts the run if it
+   repeats.
+
+Bullet *wording* is deliberately not checked, since rewording is the point. That is
+why `tailored.yaml` is written on every run: **read it before you send the PDF.**
+
+If the rendered PDF exceeds `--max-pages` (default 2), the page count is fed back to
+the model to cut content, up to 3 attempts. If it still overflows the PDF is kept and
+a warning is printed rather than failing outright.
+
+To correct a tailored resume by hand, edit `tailored.yaml` and re-render it with the
+`render_resume` MCP tool — no API call, no re-tailoring.
+
+## Editing your resume
+
+`data/resume_data_en_faang.yaml` is the only file to edit for content. Top-level keys:
+`personal`, `summary` (optional), `skills`, `experience`, `education`, `languages`.
+Anything not listed there can never appear in a generated resume.
+
+For another user, create a YAML file with the same shape and either:
+
+```bash
+export RESUME_GENERATOR_DATA_FILE=/absolute/path/to/my-resume.yaml
+```
+
+or replace `data/resume_data_en_faang.yaml` in your local checkout. The first
+option is better when several people share the same codebase or when you want
+your personal data outside the repository. The YAML should contain their name,
+email, phone, location, LinkedIn, GitHub, work authorization, skills, work
+experience, education, and languages.
+
+## Development
+
+```bash
+.venv/bin/pytest              # LaTeX-dependent tests skip if xelatex is absent
+```
+
+No test spends API credits — the Claude calls are stubbed.
+
+## Troubleshooting
+
+- **Compilation fails** — read `latex.log` in the output directory.
+- **`xelatex not found`** — install MacTeX, or add `/Library/TeX/texbin` to `PATH`.
+- **Missing page counts** — install poppler (`brew install poppler`).
+- **Running the package from outside the repo** — set `RESUME_GENERATOR_ROOT` to the
+  repo path so templates and data resolve.

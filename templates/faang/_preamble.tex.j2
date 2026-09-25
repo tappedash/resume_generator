@@ -1,0 +1,59 @@
+\documentclass[10pt,letterpaper]{article}
+
+\usepackage[
+  left=0.55in,
+  right=0.55in,
+  top=0.35in,
+  bottom=0.35in
+]{geometry}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{lmodern}
+  \input{glyphtounicode}
+  \pdfgentounicode=1
+\else
+  \usepackage{fontspec}
+  \IfFontExistsTF{Arial}
+    {\setmainfont[Ligatures=NoCommon,HyphenChar=None]{Arial}}
+    {\setmainfont[Ligatures=NoCommon,HyphenChar=None]{TeX Gyre Heros}}
+\fi
+\usepackage[hidelinks]{hyperref}
+\usepackage{enumitem}
+\usepackage{needspace}
+\usepackage{microtype}
+
+\pagestyle{empty}
+\raggedright
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\setlength{\emergencystretch}{1.5em}
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+\uchyph=0
+\urlstyle{same}
+
+\setlist[itemize]{
+  label=\textbullet,
+  leftmargin=0.24in,
+  topsep=1pt,
+  itemsep=1pt,
+  parsep=0pt,
+  partopsep=0pt
+}
+
+{% raw %}
+\newcommand{\contactsep}{\hspace{0.45em}\textbar\hspace{0.45em}}
+\newcommand{\resumesection}[1]{%
+  \needspace{4\baselineskip}
+  \vspace{7pt}
+  {\large\textbf{#1}}\par
+  \vspace{1pt}
+  \hrule
+  \vspace{4pt}
+}
+\newcommand{\skillrow}[2]{\textbf{#1:} #2\par}
+\newcommand{\entryspace}{\vspace{3pt}}
+\newcommand{\resumeitem}[1]{\item #1}
+{% endraw %}

@@ -20,6 +20,13 @@ wheels/
 .installed.cfg
 *.egg
 
+# Test artifacts
+.pytest_cache/
+
+# Local agent/tool state
+.claude/
+.claude-flow/
+
 # LaTeX
 *.aux
 *.fdb_latexmk
@@ -33,11 +40,11 @@ wheels/
 *.bcf
 *.run.xml
 
-# Output files
-latex/resume.pdf
-latex/resume.tex
+# Generated applications (tailored PDFs, audit trails)
+output/
 
 # Virtual Environment
+.venv/
 venv/
 env/
 

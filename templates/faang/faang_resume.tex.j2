@@ -1,0 +1,63 @@
+{% include '_preamble.tex.j2' %}
+
+\begin{document}
+\fontsize{9.8pt}{11.25pt}\selectfont
+
+{% set personal = context.get('personal', {}) %}
+{% set linkedin_raw = personal.get('linkedin', '') %}
+{% set github_raw = personal.get('github', '') %}
+{% set linkedin_url = linkedin_raw if '://' in linkedin_raw else 'https://' ~ linkedin_raw %}
+{% set github_url = github_raw if '://' in github_raw else 'https://' ~ github_raw %}
+
+{\centering
+  {\LARGE\textbf{ {{ personal.get('name', '') | escape_latex }} }}\par
+  \vspace{3pt}
+  {{ personal.get('location', '') | escape_latex }}
+  \contactsep {{ personal.get('phone', '') | escape_latex }}
+  \contactsep {{ personal.get('email', '') | escape_latex }}
+  {% if linkedin_raw %}\contactsep \href{ {{ linkedin_url }} }{ {{ linkedin_raw | escape_latex }} }{% endif %}\par
+  {% if github_raw %}\href{ {{ github_url }} }{ {{ github_raw | escape_latex }} }\par{% endif %}
+}
+
+{% if context.get('summary') and context.get('summary').get('content') %}
+\resumesection{Professional Summary}
+{{ context.get('summary').get('content', '') | escape_latex }}\par
+{% endif %}
+
+{% if context.get('skills') %}
+\resumesection{Skills}
+{% for category in context.get('skills', []) %}
+\skillrow{ {{- category.get('category', '') | escape_latex -}} }{ {{- category.get('items', []) | join(', ') | escape_latex -}} }
+{% endfor %}
+{% endif %}
+
+{% if context.get('experience') %}
+\resumesection{Work Experience}
+{% for exp in context.get('experience', []) %}
+\needspace{5\baselineskip}
+\textbf{ {{- exp.get('position', '') | escape_latex -}} } \textbar\ {{ exp.get('company', '') | escape_latex }}{% if exp.get('location') %}, {{ exp.get('location', '') | escape_latex }}{% endif %}\hfill {{ exp.get('period', '') | escape_latex }}\par
+\begin{itemize}
+{% for detail in exp.get('details', []) %}
+  \resumeitem{ {{ detail | escape_latex }} }
+{% endfor %}
+\end{itemize}
+\entryspace
+{% endfor %}
+{% endif %}
+
+{% if context.get('education') %}
+\resumesection{Education}
+{% for edu in context.get('education', []) %}
+\textbf{ {{- edu.get('degree', '') | escape_latex -}} } \textbar\ {{ edu.get('institution', '') | escape_latex }}{% if edu.get('location') %}, {{ edu.get('location', '') | escape_latex }}{% endif %}\hfill {{ edu.get('period', '') | escape_latex }}\par
+\vspace{2pt}
+{% endfor %}
+{% endif %}
+
+{% if context.get('languages') %}
+\resumesection{Languages}
+{% for language in context.get('languages', []) %}
+\textbf{ {{- language.get('name', '') | escape_latex -}} :} {{ language.get('level', '') | escape_latex }}\par
+{% endfor %}
+{% endif %}
+
+\end{document}
